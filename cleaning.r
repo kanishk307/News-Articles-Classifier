@@ -1,7 +1,10 @@
 install.packages("readtext",dependencies=TRUE)
-install.packages("dplyr",dependencies = TRUE)
+#install.packages("dplyr",dependencies = TRUE)
 library(readtext)
-library(dplyr)
+#library(dplyr)
+
+# Cleaning environment data
+rm(list = ls())
 
 
 setwd('E:\\GITHUB\\INST 737-Project\\INST-737-Project')
@@ -22,6 +25,8 @@ categories = list.files(path=news)
 #}
 
 
+#Read every folder and create final data frame
+
 
 df = data.frame(matrix(nrow=0,ncol=3))
 #colnames(df) <- c('filename','text','category')
@@ -36,8 +41,19 @@ for(category in categories){
 }
 
 colnames(df) <- c('filename','text','category')
+# 
+# newlist <- split(df,df$category)
+# 
+# 
+# list2env(setNames(newlist, paste0('cat-', seq_along(newlist))),envir=.GlobalEnv)
 
-newlist <- split(df,df$category)
 
+#Save Dataset
+save(df,file='Dataset.rda')
 
-list2env(setNames(newlist, paste0('cat-', seq_along(newlist))),envir=.GlobalEnv)
+#load Dataset
+load(file='Dataset.rda')
+
+#iimport to python 
+# write.csv2(df,fileEncoding = 'utf8','BBC_Dataset.csv')
+write.csv(df,fileEncoding='utf8',file="newDataset.csv")
